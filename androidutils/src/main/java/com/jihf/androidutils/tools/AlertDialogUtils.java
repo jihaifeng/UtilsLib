@@ -13,6 +13,7 @@ import android.text.TextUtils;
  * Mail：jihaifeng@raiyi.com
  */
 public class AlertDialogUtils {
+
   private static AlertDialog alertDialog;
   private static Context mContext;
   private static AlertDialog.Builder builder;
