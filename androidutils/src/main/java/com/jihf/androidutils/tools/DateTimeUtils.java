@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import static java.lang.System.currentTimeMillis;
+
 /**
  * Func：日期工具类 主要实现了日期的常用操作
  * User：jihf
@@ -83,6 +85,7 @@ public class DateTimeUtils {
    * 将long时间转成日期（yyyy-MM-dd）字符串，并格式化
    *
    * @param time 时间源
+   *
    * @return yyyy-MM-dd
    */
   public static String getDateFromLong(long time) {
@@ -93,6 +96,7 @@ public class DateTimeUtils {
    * 将"yyyy-MM-dd HH:mm:ss" 格式的字符串转成Date
    *
    * @param strDate 时间字符串
+   *
    * @return Date
    */
   private static Date getDateFromString(String strDate) {
@@ -108,6 +112,7 @@ public class DateTimeUtils {
    *
    * @param strDate 时间字符串
    * @param simpleDateFormat SimpleDateFormat对象
+   *
    * @return date
    */
   public static Date getDateFormat(String strDate, SimpleDateFormat simpleDateFormat) {
@@ -128,6 +133,7 @@ public class DateTimeUtils {
    * 将long时间转成日期+时间(yyyy-MM-dd HH:mm:ss)字符串，并格式化
    *
    * @param time 时间源
+   *
    * @return yyyy-MM-dd HH:mm:ss
    */
   public static String getDateTimmeFromLong(long time) {
@@ -138,6 +144,7 @@ public class DateTimeUtils {
    * 将date转成日期(yyyy-MM-dd)字符串，并格式化
    *
    * @param date 时间源
+   *
    * @return yyyy-MM-dd
    */
   public static String getDateFormat(Date date) {
@@ -148,6 +155,7 @@ public class DateTimeUtils {
    * 将date转成日期+时间(yyyy-MM-dd HH:mm:ss)字符串，并格式化
    *
    * @param date 时间源
+   *
    * @return yyyy-MM-dd HH:mm:ss
    */
   public static String getDateTimeFromDate(Date date) {
@@ -160,6 +168,7 @@ public class DateTimeUtils {
    * @param year 年
    * @param month 月 1-12
    * @param day 日
+   *
    * @return yyyy-MM-dd
    * 注：月表示Calendar的月，比实际小1
    */
@@ -176,6 +185,7 @@ public class DateTimeUtils {
    * @param hourOfDay 小时 0-23
    * @param minute 分 0-59
    * @param second 秒 0-59
+   *
    * @return 一个Date对象
    */
   public static Date getDate(int year, int month, int day, int hourOfDay, int minute, int second) {
@@ -195,6 +205,7 @@ public class DateTimeUtils {
    * @param year 年
    * @param month 月 1-12
    * @param day 日
+   *
    * @return yyyy-MM-dd
    * 注：月表示Calendar的月，比实际小1
    */
@@ -262,6 +273,7 @@ public class DateTimeUtils {
    * (2)整百的年数能被400整除。
    *
    * @param year year
+   *
    * @return true(闰年) , false(平年)
    */
   public static boolean isLeapYear(int year) {
@@ -280,6 +292,7 @@ public class DateTimeUtils {
    *
    * @param date date
    * @param simpleDateFormat format
+   *
    * @return string
    */
   public static String getDateFormat(Date date, SimpleDateFormat simpleDateFormat) {
@@ -294,6 +307,7 @@ public class DateTimeUtils {
    *
    * @param start 起始日期，格式yyyy-MM-dd
    * @param end 终止日期，格式yyyy-MM-dd
+   *
    * @return 两个日期相差天数
    */
   public static long getIntervalDays(String start, String end) {
@@ -305,6 +319,7 @@ public class DateTimeUtils {
    *
    * @param start 起始日期，long型
    * @param end 终止日期，long型
+   *
    * @return 两个日期相差天数
    */
   public static long getIntervalTime(long start, long end) {
@@ -384,6 +399,7 @@ public class DateTimeUtils {
    * 获得几天之前或者几天之后的日期
    *
    * @param diff 差值：正的往后推，负的往前推
+   *
    * @return string
    */
   public static String getOtherDay(int diff) {
@@ -397,6 +413,7 @@ public class DateTimeUtils {
    *
    * @param strDate 给定的日期对象
    * @param amount 需要添加的天数，如果是向前的天数，使用负数就可以.
+   *
    * @return Date 加上一定天数以后的Date对象.
    */
   public static String getCalcDateFormat(String strDate, int amount) {
@@ -409,6 +426,7 @@ public class DateTimeUtils {
    *
    * @param date 给定的日期对象
    * @param amount 需要添加的天数，如果是向前的天数，使用负数就可以.
+   *
    * @return Date 加上一定天数以后的Date对象.
    */
   public static Date getCalcDate(Date date, int amount) {
@@ -416,5 +434,101 @@ public class DateTimeUtils {
     cal.setTime(date);
     cal.add(Calendar.DATE, amount);
     return cal.getTime();
+  }
+
+  /**
+   * 将时间戳转化为字符串
+   *
+   * @param showTime
+   *
+   * @return
+   */
+  public static String formatTime2String(long showTime) {
+    return formatTime2String(showTime, false);
+  }
+
+  public static String formatTime2String(long showTime, boolean haveYear) {
+    String str = "";
+    long distance = currentTimeMillis() / 1000 - showTime;
+    if (distance < 300) {
+      str = "刚刚";
+    } else if (distance >= 300 && distance < 600) {
+      str = "5分钟前";
+    } else if (distance >= 600 && distance < 1200) {
+      str = "10分钟前";
+    } else if (distance >= 1200 && distance < 1800) {
+      str = "20分钟前";
+    } else if (distance >= 1800 && distance < 2700) {
+      str = "半小时前";
+    } else if (distance >= 2700) {
+      Date date = new Date(showTime * 1000);
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      str = formatDateTime(sdf.format(date), haveYear);
+    }
+    return str;
+  }
+
+  public static String formatDate2String(String time) {
+    SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    if (time == null) {
+      return "未知";
+    }
+    try {
+      long createTime = format.parse(time).getTime() / 1000;
+      long currentTime = System.currentTimeMillis() / 1000;
+      if (currentTime - createTime - 24 * 3600 > 0) { //超出一天
+        return (currentTime - createTime) / (24 * 3600) + "天前";
+      } else {
+        return (currentTime - createTime) / 3600 + "小时前";
+      }
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    return "未知";
+  }
+
+  public static String formatDateTime(String time, boolean haveYear) {
+    SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    if (time == null) {
+      return "";
+    }
+    Date date = null;
+    try {
+      date = format.parse(time);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
+    Calendar current = Calendar.getInstance();
+    Calendar today = Calendar.getInstance();
+    today.set(Calendar.YEAR, current.get(Calendar.YEAR));
+    today.set(Calendar.MONTH, current.get(Calendar.MONTH));
+    today.set(Calendar.DAY_OF_MONTH, current.get(Calendar.DAY_OF_MONTH));
+    today.set(Calendar.HOUR_OF_DAY, 0);
+    today.set(Calendar.MINUTE, 0);
+    today.set(Calendar.SECOND, 0);
+    Calendar yesterday = Calendar.getInstance();
+    yesterday.set(Calendar.YEAR, current.get(Calendar.YEAR));
+    yesterday.set(Calendar.MONTH, current.get(Calendar.MONTH));
+    yesterday.set(Calendar.DAY_OF_MONTH, current.get(Calendar.DAY_OF_MONTH) - 1);
+    yesterday.set(Calendar.HOUR_OF_DAY, 0);
+    yesterday.set(Calendar.MINUTE, 0);
+    yesterday.set(Calendar.SECOND, 0);
+
+    current.setTime(date);
+    if (current.after(today)) {
+      return "今天 " + time.split(" ")[1];
+    } else if (current.before(today) && current.after(yesterday)) {
+      return "昨天 " + time.split(" ")[1];
+    } else {
+      if (haveYear) {
+        int index = time.indexOf(" ");
+        return time.substring(0, index);
+      } else {
+        int yearIndex = time.indexOf("-") + 1;
+        int index = time.indexOf(" ");
+        return time.substring(yearIndex, time.length()).substring(0, index);
+      }
+    }
   }
 }
