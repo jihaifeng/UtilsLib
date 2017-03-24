@@ -7,3 +7,8 @@
 /build
 /captures
 .externalNativeBuild
+bintray.properties
+/bintray.properties
+/.idea
+/.gradle
+/gradle.properties

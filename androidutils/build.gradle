@@ -42,7 +42,7 @@ tasks.withType(Javadoc) {
 
 // 这里是读取Bintray相关的信息，我们上传项目到github上的时候会把gradle文件传上去，所以不要把帐号密码的信息直接写在这里，写在local.properties中，这里动态读取。
 Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+properties.load(project.rootProject.file('bintray.properties').newDataInputStream())
 // 组织ID。
 def orgId = properties.getProperty("bintray.orgId")
 //maven库的名字
@@ -137,7 +137,7 @@ bintray {
   configurations = ['archives']
   pkg {
     repo = mavenName // 上传到maven库。
-    name = "AndoridUtils" // 发布到Bintray上的项目名字，这里的名字不是compile 'com.yanzhenjie:andserver:1.0.1'中的andserver。
+    name = pojName // 发布到Bintray上的项目名字，这里的名字不是compile 'com.yanzhenjie:andserver:1.0.1'中的andserver。
     userOrg = orgId // Bintray的组织ID
     websiteUrl = siteUrl
     vcsUrl = gitUrl
